@@ -14,8 +14,24 @@ def count_neighbors(grid, row, col):
     """
     
     alive_count = 0
-    
-    # TODO: Implement your neighbor-counting logic here!
+
+    #finding the boundaries
+    rows=len(grid)
+    cols=len(grid[0]) if rows>0 else 0
+
+    #for checking all neighbours
+    for r in [-1,0,1]:
+        for c in [-1,0,1]:
+            if r==c==0:  #to skip the same cell
+                continue
+
+            #finding coordinates of the neighbours
+            neighbour_row=row+r
+            neighbour_col=col+c
+
+            if (0<=neighbour_row<rows) and (0<=neighbour_col<cols):    #checking the boundary condition
+                if grid[neighbour_row][neighbour_col]==1:      #checking if neighbour is alive
+                    alive_count+=1
 
     return alive_count
 
