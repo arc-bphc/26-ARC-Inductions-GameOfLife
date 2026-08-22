@@ -1,4 +1,5 @@
 #---------------------------- TASK 1 ----------------------------
+
 def count_neighbors(grid, row, col):
     """
     Counts the number of alive neighbors for a specific cell in the grid.
@@ -14,7 +15,21 @@ def count_neighbors(grid, row, col):
     """
     
     alive_count = 0
+    # directions to move from the particular cell to check if its a corner or an edge
+    directions = [
+        (-1, -1), (-1, 0), (-1, 1),
+        ( 0, -1),          ( 0, 1),
+        ( 1, -1), ( 1, 0), ( 1, 1)
+    ]
+    
+    for dir_row, dir_col in directions:
+        # move to the neighbouring cell 
+        curr_row = row + dir_row 
+        curr_col = col + dir_col 
 
+        # check if its still in the grid
+        if (0 <= curr_row < len(grid) and 0 <= curr_col < len(grid[0])):
+            alive_count += grid[curr_row][curr_col] # works as it increments 1 when alive
 
     return alive_count
 
@@ -42,3 +57,7 @@ def compute_next_generation(grid):
     next_grid = [[0 for _ in range(cols)] for _ in range(rows)]
 
     return next_grid
+
+
+
+
