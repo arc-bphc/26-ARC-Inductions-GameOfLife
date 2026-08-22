@@ -152,7 +152,14 @@ def get_seed(seed_type='random', rows=20, cols=40):
             grid[center_r - r][center_c + c] = 1
             grid[center_r + r][center_c - c] = 1
             grid[center_r + r][center_c + c] = 1
-            
+
+    elif seed_type == 'fixed_random':
+        # deterministic, repeatable random layout
+        rng = random.Random(42)  # fixed seed -> same layout each call
+        for r in range(rows):
+            for c in range(cols):
+                grid[r][c] = 1 if rng.random() < 0.20 else 0
+
     else:
         for r in range(rows):
             for c in range(cols):
@@ -165,7 +172,7 @@ def main():
     COLS = 35
     TICK_SPEED = 0.1
     #---------------------------- 
-    SEED_TYPE = 'random' #glider/blinker/pulsar (default: random)
+    SEED_TYPE = 'fixed_random' #glider/blinker/pulsar (default: random)
     #---------------------------- 
     
     grid = get_seed(SEED_TYPE, ROWS, COLS)
