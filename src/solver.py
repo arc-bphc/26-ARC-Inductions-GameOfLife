@@ -17,6 +17,19 @@ def count_neighbors(grid, row, col):
     
     # TODO: Implement your neighbor-counting logic here!
 
+    for row_offset in [-1, 0, 1]:
+     for col_offset in [-1, 0, 1]:
+
+        if row_offset == 0 and col_offset == 0:
+            continue
+
+        new_row = row + row_offset
+        new_col = col + col_offset
+
+        if 0 <= new_row < len(grid) and 0 <= new_col < len(grid[0]):
+            if grid[new_row][new_col] == 1:
+                alive_count += 1
+
     return alive_count
 
 #---------------------------- TASK 2 ----------------------------
@@ -45,5 +58,17 @@ def compute_next_generation(grid):
     # TODO: Iterate through every cell in the `grid`.
     # TODO: Use your `count_neighbors` function to find out how many neighbors it has.
     # TODO: Apply the 4 Rules of Life to determine if it should be 1 (alive) or 0 (dead) in `next_grid`.
+
+    for row in range(rows):
+     for col in range(cols):
+
+        neighbors = count_neighbors(grid, row, col)
+
+        if grid[row][col] == 1:
+            if neighbors == 2 or neighbors == 3:
+                next_grid[row][col] = 1
+        else:
+            if neighbors == 3:
+                next_grid[row][col] = 1
 
     return next_grid
