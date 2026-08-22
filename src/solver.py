@@ -7,11 +7,11 @@ def count_neighbors(grid, row, col):
         for col_counter in[-1,0,1]:
             if row_counter==0 and col_counter==0:
                 continue
-        n_row=row+row_counter
-        n_col=col+col_counter
-        if 0<=n_row<r and 0<=n_col<c:
-             if grid[n_row][n_col]==1:
-                 alive_count=alive_count+1
+            n_row=row+row_counter
+            n_col=col+col_counter
+            if 0<=n_row<r and 0<=n_col<c:
+                if grid[n_row][n_col]==1:
+                    alive_count=alive_count+1
     return alive_count
 #---------------------------- TASK 2 ----------------------------
 def compute_next_generation(grid):
