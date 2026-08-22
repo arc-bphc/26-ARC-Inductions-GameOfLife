@@ -15,8 +15,24 @@ def count_neighbors(grid, row, col):
     
     alive_count = 0
     
-    # TODO: Implement your neighbor-counting logic here!
-
+    # Implementing my neighbor-counting logic here!
+    
+    # get total grid dimensions
+    total_rows = len(grid)
+    total_columns = len(grid[0]) if total_rows > 0 else 0
+    
+    for r in range(row-1, row+2):
+        for c in range(col-1, col+2):
+            
+            if not (total_rows > row >= 0 and total_columns > col >= 0): # skips if it is outside boundaries
+                continue
+            
+            if not r == row and c == col: # skip center cell 
+                continue
+            if grid [r][c]:
+                alive_count += 1
+    
+    
     return alive_count
 
 #---------------------------- TASK 2 ----------------------------
