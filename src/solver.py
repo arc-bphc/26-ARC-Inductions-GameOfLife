@@ -1,4 +1,5 @@
 #---------------------------- TASK 1 ----------------------------
+
 def count_neighbors(grid, row, col):
     """
     Counts the number of alive neighbors for a specific cell in the grid.
@@ -14,8 +15,21 @@ def count_neighbors(grid, row, col):
     """
     
     alive_count = 0
+    # directions to move from the particular cell to check if its a corner or an edge
+    directions = [
+        (-1, -1), (-1, 0), (-1, 1),
+        ( 0, -1),          ( 0, 1),
+        ( 1, -1), ( 1, 0), ( 1, 1)
+    ]
     
-    # TODO: Implement your neighbor-counting logic here!
+    for dir_row, dir_col in directions:
+        # move to the neighbouring cell 
+        curr_row = row + dir_row 
+        curr_col = col + dir_col 
+
+        # check if its still in the grid
+        if (0 <= curr_row < len(grid) and 0 <= curr_col < len(grid[0])):
+            alive_count += grid[curr_row][curr_col] # works as it increments 1 when alive
 
     return alive_count
 
@@ -23,27 +37,46 @@ def count_neighbors(grid, row, col):
 def compute_next_generation(grid):
     """
     Generates the next state of the grid based on Conway's rules.
-    
+
     Args:
         grid (list of lists): The current 2D state of the game.
-        
+
     Returns:
         list of lists: A BRAND NEW 2D grid representing the next generation.
-        
-    Note:
-        - Do NOT modify the original `grid` directly while iterating through it. 
-          You must create a new grid to store the updated states, otherwise 
-          your changes will mess up the neighbor counts for subsequent cells!
     """
-    
+
+    # Get the number of rows and columns in the current grid.
     rows = len(grid)
     cols = len(grid[0]) if rows > 0 else 0
-    
-    # Create a new blank grid of the same size, filled with 0s (dead cells)
-    next_grid = [[0 for _ in range(cols)] for _ in range(rows)]
-    
-    # TODO: Iterate through every cell in the `grid`.
-    # TODO: Use your `count_neighbors` function to find out how many neighbors it has.
-    # TODO: Apply the 4 Rules of Life to determine if it should be 1 (alive) or 0 (dead) in `next_grid`.
 
-    return next_grid
+    # Create a separate grid for the next generation.
+    # Every cell starts as dead (0)
+
+    # not modifying grid directly because neighbour counts must always be calculated using the original generation.
+    new_grid = [[0 for _ in range(cols)] for _ in range(rows)]
+
+    # Visit every cell in the current generation
+    for row in range(rows):
+        for col in range(cols):
+            # Count the live cells among the 8 neighbouring positions
+            live_neighbors = count_neighbors(grid, row, col)
+
+            # If the current cell is alive
+            if grid[row][col] == 1:
+                # A live cell survives with exactly 2 or 3 live neighbours
+                if live_neighbors in (2, 3):
+                    new_grid[row][col] = 1
+
+                # Otherwise it remains 0 (dies due to underpopulation or overpopulation)
+            # If the current cell is dead
+            else:
+                # A dead cell becomes alive if it has exactly 3 live neighbours
+                if live_neighbors == 3:
+                    new_grid[row][col] = 1
+
+                # Otherwise it remains 0.
+    # Return the newly calculated generation.
+    return new_grid
+
+
+
